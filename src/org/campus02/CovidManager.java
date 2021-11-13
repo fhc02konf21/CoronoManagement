@@ -55,6 +55,7 @@ public class CovidManager {
 
         System.out.println("getAverageValueAfter(recordedValues, \"2021-10-01\") = " + getAverageValueAfter(recordedValues, "2021-10-01"));
 
+        System.out.println("findDayStateWithHighestValues(recordedValues) = " + findDayStateWithHighestValues(recordedValues));
     }
 
     public static HashMap<String, Integer> groupByState(ArrayList<Incidence> recordedValues) {
@@ -127,16 +128,35 @@ public class CovidManager {
                 sumValues += oneElement.getNumber();
             }
         }
+        if (counter == 0)
+            return -1;
         return sumValues / counter;
     }
 
     public static Incidence findDayStateWithHighestValues(ArrayList<Incidence> recordedValues) {
         // Es soll die Meldung (state/date) mit dem höchsten Wert gefunden werden
-
-        
+        int maxValue = findHighestValue(recordedValues);
+        for (Incidence oneElement : recordedValues) {
+            if (oneElement.getNumber() == maxValue) {
+                return oneElement;
+            }
+        }
         return null;
     }
+    public static Incidence findDayStateWithHighestValues2(ArrayList<Incidence> recordedValues) {
+        // Es soll die Meldung (state/date) mit dem höchsten Wert gefunden werden
+        if (recordedValues.size() == 0)
+            return null;
 
+        Incidence maxValue = recordedValues.get(0);
+
+        for (Incidence oneElement : recordedValues) {
+            if (oneElement.getNumber() > maxValue.getNumber()) {
+                maxValue = oneElement;
+            }
+        }
+        return maxValue;
+    }
     // zusatz
     public static HashMap<String, ArrayList<Incidence>> getAllElementsByState(ArrayList<Incidence> recordedValues){
         // Alle Elemente je Bundesland retour liefern
