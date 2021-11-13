@@ -56,6 +56,10 @@ public class CovidManager {
         System.out.println("getAverageValueAfter(recordedValues, \"2021-10-01\") = " + getAverageValueAfter(recordedValues, "2021-10-01"));
 
         System.out.println("findDayStateWithHighestValues(recordedValues) = " + findDayStateWithHighestValues(recordedValues));
+
+        System.out.println("getAllElementsByState(recordedValues) = " + getAllElementsByState(recordedValues));
+
+        System.out.println("findValuesAbove(recordedValues, 200) = " + findValuesAbove(recordedValues, 200));
     }
 
     public static HashMap<String, Integer> groupByState(ArrayList<Incidence> recordedValues) {
@@ -161,12 +165,32 @@ public class CovidManager {
     public static HashMap<String, ArrayList<Incidence>> getAllElementsByState(ArrayList<Incidence> recordedValues){
         // Alle Elemente je Bundesland retour liefern
 
-        return null;
+        HashMap<String, ArrayList<Incidence>> result = new HashMap<>();
+        for (Incidence oneElement : recordedValues) {
+            if (result.containsKey(oneElement.getState())) {
+                ArrayList<Incidence> values = result.get(oneElement.getState());
+                values.add(oneElement);
+                // put ist nicht mehr notwendig, dass eine Liste bereits eine Referenz ist
+            } else {
+                ArrayList<Incidence> values = new ArrayList<>();
+                values.add(oneElement);
+                result.put(oneElement.getState(), values);
+            }
+        }
+
+        return result;
     }
 
     public static ArrayList<Incidence> findValuesAbove(ArrayList<Incidence> recordedValues, int referenceValue){
         // Alle Werte über dem Referenzwert sollen retour geliefert werden
 
-        return null;
+        ArrayList<Incidence> result = new ArrayList<>();
+
+        for (Incidence oneElement : recordedValues) {
+            if (oneElement.getNumber() > referenceValue)
+                result.add(oneElement);
+        }
+        
+        return result;
     }
 }
